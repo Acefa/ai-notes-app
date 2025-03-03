@@ -1,1 +1,0 @@
-ALTER TABLE "profiles" ALTER COLUMN "stripe_subscription_id" DROP NOT NULL;

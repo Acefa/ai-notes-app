@@ -11,16 +11,8 @@ export async function POST(req: Request) {
   const headersList = await headers();
   const sig = headersList.get("Stripe-Signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  console.log('环境变量:', process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_YEARLY);
-  let event: Stripe.Event;
-  console.log(`[Stripe] routes: "body: route开始啦----------`);
-  console.log(`[Stripe] routes: "sig": ${sig}`);
-  console.log(`[Stripe] routes: "webhooksecrt: ${webhookSecret}`);
   
-  if (!webhookSecret) {
-    console.error('STRIPE_WEBHOOK_SECRET is not configured');
-    return new Response('Webhook secret not configured', { status: 500 });
-  }
+  let event: Stripe.Event;
 
   try {
     if (!sig || !webhookSecret) {
