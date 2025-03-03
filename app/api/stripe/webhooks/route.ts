@@ -17,9 +17,10 @@ export async function POST(req: Request) {
     }
 
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (err: any) {
-    console.error(`Webhook Error: ${err.message}`);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+    console.error(`Webhook Error: ${errorMessage}`);
+    return new Response(`Webhook Error: ${errorMessage}`, { status: 400 });
   }
 
   if (relevantEvents.has(event.type)) {
@@ -38,7 +39,8 @@ export async function POST(req: Request) {
           throw new Error("Unhandled relevant event!");
       }
     } catch (error) {
-      console.error("Webhook handler failed:", error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error("Webhook handler failed:", errorMessage);
       return new Response("Webhook handler failed. View your nextjs function logs.", {
         status: 400
       });
