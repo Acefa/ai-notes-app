@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1740981664370,
+      "tag": "0000_closed_squadron_supreme",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1740984507614,
+      "tag": "0001_eminent_iron_fist",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740984835913,
+      "tag": "0002_quick_lyja",
+      "breakpoints": true
+    }
+  ]
+}
