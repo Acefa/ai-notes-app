@@ -2,25 +2,23 @@ import { manageSubscriptionStatusChange, updateStripeCustomer } from "@/actions/
 import stripe from "@/lib/stripe";
 import { headers } from "next/headers";
 import Stripe from "stripe";
-import { z } from "zod";
 
 const relevantEvents = new Set(["checkout.session.completed", "customer.subscription.updated", "customer.subscription.deleted"]);
 
-export async function POST(req: Request) {
-  const body = await req.text();
-  const sig = (await headers()).get("Stripe-Signature") as string;
+export async function POST(request: Request): Promise<Response> {
+  const body = await request.text();
+  const signature = request.headers.get("stripe-signature") as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
 
   try {
-    if (!sig || !webhookSecret) {
+    if (!signature || !webhookSecret) {
       throw new Error("Webhook secret or signature missing");
     }
 
-    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
-  } catch (err: any) {
-    console.error(`Webhook Error: ${err.message}`);
-    return new Response(`Webhook Error: ${err.message}`, { status: 400 });
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+  } catch (error) {
+    return new Response(`Webhook Error: ${error instanceof Error ? error.message : 'Unknown Error'}`, { status: 400 });
   }
 
   if (relevantEvents.has(event.type)) {

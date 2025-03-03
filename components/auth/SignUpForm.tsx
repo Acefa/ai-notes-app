@@ -15,8 +15,9 @@ export function SignUpForm() {
 
     try {
       const formData = new FormData(event.target as HTMLFormElement)
-      const email = formData.get('email') as string
-      const password = formData.get('password') as string
+      // 使用这些变量或删除它们
+      // const email = formData.get('email') as string
+      // const password = formData.get('password') as string
 
       // TODO: 实现注册逻辑
       
