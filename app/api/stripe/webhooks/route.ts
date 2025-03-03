@@ -8,8 +8,8 @@ const relevantEvents = new Set(["checkout.session.completed", "customer.subscrip
 export async function POST(req: Request) {
   const body = await req.text();
   const headersList = await headers();
-  const sig = headersList.get("Stripe-Signature")!;
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  const sig = headersList.get("Stripe-Signature");
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
   console.log(`[Stripe] routes: "body: route开始啦----------`);
   console.log(`[Stripe] routes: "sig": ${sig}`);

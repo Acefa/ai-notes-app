@@ -5,7 +5,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   appInfo: {
     name: "AI notes app",
     version: "1.0.0",
-    
+    url: "https://ai-notes-app-liart.vercel.app",
   },
 });
 
