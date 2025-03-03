@@ -6,18 +6,29 @@ const relevantEvents = new Set(["checkout.session.completed", "customer.subscrip
 
 export async function POST(request: Request): Promise<Response> {
   const body = await request.text();
-  const signature = request.headers.get("stripe-signature") as string;
+  const signature = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
 
-  try {
-    if (!signature || !webhookSecret) {
-      throw new Error("Webhook secret or signature missing");
-    }
+  if (!signature) {
+    console.error("Stripe signature missing");
+    return new Response("Stripe signature missing", { status: 400 });
+  }
 
+  if (!webhookSecret) {
+    console.error("Stripe webhook secret missing in environment variables");
+    return new Response("Stripe webhook secret not configured", { status: 500 });
+  }
+
+  try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    console.log(`Webhook received: ${event.type}`);
   } catch (error) {
-    return new Response(`Webhook Error: ${error instanceof Error ? error.message : 'Unknown Error'}`, { status: 400 });
+    console.error("Webhook signature verification failed:", error);
+    return new Response(
+      `Webhook Error: ${error instanceof Error ? error.message : 'Unknown Error'}`,
+      { status: 400 }
+    );
   }
 
   if (relevantEvents.has(event.type)) {
