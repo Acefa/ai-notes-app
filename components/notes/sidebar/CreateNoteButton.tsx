@@ -14,7 +14,7 @@ export function CreateNoteButton() {
     try {
       setIsNavigating(true);
       await router.push("/notes/new");
-    } catch (_) {
+    } catch {
       toast.error("创建笔记失败");
     } finally {
       setIsNavigating(false);
