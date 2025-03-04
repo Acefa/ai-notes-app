@@ -60,9 +60,9 @@ export function ChatSidebar({ note }: { note: SelectNote }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      {/* 头部 */}
-      <div className="flex-none p-4 border-b">
+    <div className="h-screen flex flex-col">
+      {/* 头部 - 与 NoteEditor 保持一致的高度和样式 */}
+      <div className="flex-none px-6 py-3 border-b sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Button 
           variant="secondary" 
           className="w-full gap-2"
@@ -73,27 +73,29 @@ export function ChatSidebar({ note }: { note: SelectNote }) {
         </Button>
       </div>
       
-      {/* 消息区域 */}
-      <ScrollArea 
-        ref={scrollAreaRef}
-        className="flex-1 p-4 h-[calc(100vh-180px)]"
-      >
-        <div className="space-y-4">
-          {messages.map((message, i) => (
-            <ChatMessage key={i} message={message} />
-          ))}
-          {isLoading && (
-            <div className="h-8 flex items-center justify-center">
-              <div className="animate-pulse text-muted-foreground">AI正在思考...</div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-      </ScrollArea>
+      {/* 消息区域 - 动态计算高度，与 NoteEditor 内容区保持一致 */}
+      <div className="flex-1 overflow-auto bg-muted/10">
+        <ScrollArea 
+          ref={scrollAreaRef}
+          className="h-full px-6"
+        >
+          <div className="max-w-3xl mx-auto py-6 space-y-4">
+            {messages.map((message, i) => (
+              <ChatMessage key={i} message={message} />
+            ))}
+            {isLoading && (
+              <div className="h-8 flex items-center justify-center">
+                <div className="animate-pulse text-muted-foreground">AI正在思考...</div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </ScrollArea>
+      </div>
 
-      {/* 输入区域 */}
-      <div className="flex-none p-4 border-t bg-background/95">
-        <div className="flex gap-2">
+      {/* 输入区域 - 固定在底部 */}
+      <div className="flex-none px-6 py-3 border-t bg-background/95">
+        <div className="max-w-3xl mx-auto flex gap-2">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
