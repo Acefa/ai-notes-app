@@ -4,23 +4,18 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export function CreateNoteButton() {
   const router = useRouter();
-  const { toast } = useToast();
   const [isNavigating, setIsNavigating] = useState(false);
 
   async function handleClick() {
     try {
       setIsNavigating(true);
       await router.push("/notes/new");
-    } catch (error) {
-      toast({
-        title: "导航错误",
-        description: "无法跳转到新建笔记页面",
-        variant: "destructive",
-      });
+    } catch (err) {
+      toast.error("创建笔记失败");
     } finally {
       setIsNavigating(false);
     }

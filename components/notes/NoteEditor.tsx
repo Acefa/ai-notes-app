@@ -6,7 +6,6 @@ import { updateNoteAction, createNoteAction } from "@/actions/notes-actions";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -22,15 +21,6 @@ export function NoteEditor({ note }: { note: SelectNote }) {
   const debouncedTitle = useDebounce(title, 1000);
   const debouncedContent = useDebounce(content, 1000);
   const isNewNote = !note.id;
-
-  useEffect(() => {
-    if (!isNewNote && 
-      (debouncedTitle !== note.title || debouncedContent !== note.content) &&
-      (debouncedTitle || debouncedContent)
-    ) {
-      handleSave();
-    }
-  }, [debouncedTitle, debouncedContent]);
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -67,6 +57,15 @@ export function NoteEditor({ note }: { note: SelectNote }) {
       setIsSaving(false);
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (isNewNote && (!note.title || !note.content)) return;
+      handleSave();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [handleSave, isNewNote, note.content, note.title]);
 
   return (
     <div className="h-screen flex flex-col">

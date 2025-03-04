@@ -41,8 +41,8 @@ export async function NotesSidebar({ userId }: { userId: string }) {
                 </div>
                 <div className="space-y-2 text-center max-w-[200px]">
                   <p className="text-sm font-medium text-foreground/80">开始创作</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    点击"新建笔记"按钮，开始记录您的想法
+                  <p className="text-sm text-muted-foreground">
+                    点击&ldquo;新建笔记&rdquo;开始写作
                   </p>
                 </div>
               </div>
