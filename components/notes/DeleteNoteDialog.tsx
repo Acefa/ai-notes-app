@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { deleteNoteAction } from "@/actions/notes-actions";
 import {
   AlertDialog,
@@ -20,32 +20,19 @@ import { useRouter } from "next/navigation";
 
 export function DeleteNoteDialog({ noteId }: { noteId: string }) {
   const [isDeleting, setIsDeleting] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
 
-  async function handleDelete() {
-    setIsDeleting(true);
+  const handleDelete = async () => {
     try {
       const result = await deleteNoteAction(noteId);
-      if (result.status === "success") {
-        toast({
-          title: "删除成功",
-          description: "笔记已删除",
-        });
-        router.refresh();
-      } else {
-        throw new Error(result.message ?? "删除失败");
-      }
-    } catch (error) {
-      toast({
-        title: "删除失败",
-        description: "请稍后重试",
-        variant: "destructive",
-      });
-    } finally {
-      setIsDeleting(false);
+      if (result.status === 'error') throw new Error(result.message || '删除失败');
+      
+      toast.success('笔记已删除');
+      router.push('/notes');
+    } catch {
+      toast.error('删除笔记失败');
     }
-  }
+  };
 
   return (
     <AlertDialog>

@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { createNoteAction } from "@/actions/notes-actions";
 import { NoteEditor } from "@/components/notes/NoteEditor";
 
 export default async function NewNotePage() {

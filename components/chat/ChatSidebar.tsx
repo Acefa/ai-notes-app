@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { SelectNote } from "@/db/schema/notes-schema";
-import { cn } from "@/lib/utils";
 import { MessageSquarePlusIcon, SendIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { ChatMessage } from "./ChatMessage";

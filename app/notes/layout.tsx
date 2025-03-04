@@ -3,8 +3,6 @@ import { redirect } from "next/navigation";
 import { NotesSidebar } from "@/components/notes/sidebar/NotesSidebar";
 import { getProfileByUserIdAction } from "@/actions/profiles-actions";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { ModeToggle } from "@/components/mode-toggle";
 
 export default async function NotesLayout({
   children,

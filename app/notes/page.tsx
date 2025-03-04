@@ -2,8 +2,6 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getProfileByUserIdAction } from "@/actions/profiles-actions";
 import { NoteList } from "@/components/notes/NoteList";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default async function NotesPage() {
   const { userId } = await auth();
