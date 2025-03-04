@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { SelectNote } from "@/db/schema/notes-schema";
 import { updateNoteAction, createNoteAction } from "@/actions/notes-actions";
 import { useDebounce } from "@/hooks/use-debounce";
-import { useEffect } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,7 +21,7 @@ export function NoteEditor({ note }: { note: SelectNote }) {
   const debouncedContent = useDebounce(content, 1000);
   const isNewNote = !note.id;
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (!title.trim()) {
       toast.error("请输入笔记标题");
       return;
@@ -56,7 +55,7 @@ export function NoteEditor({ note }: { note: SelectNote }) {
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [title, isNewNote, debouncedTitle, debouncedContent, note.userId, note.id, router]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
