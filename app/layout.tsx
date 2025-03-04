@@ -39,20 +39,22 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-    <html lang="en">
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Providers
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <Toaster />
-        </Providers>
-      
+     
+          <Providers
+            attribute="class"
+            defaultTheme="system"
+            disableTransitionOnChange
+          >
+            <Header />
+            {children}
+            <Toaster />
+          </Providers>
+       
       </body>
     </html>
     </ClerkProvider>

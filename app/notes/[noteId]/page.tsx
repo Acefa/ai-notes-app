@@ -2,24 +2,25 @@ import { getNoteByIdAction } from "@/actions/notes-actions";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { NoteEditor } from "@/components/notes/NoteEditor";
+import { ChatSidebar } from "@/components/chat/ChatSidebar";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 interface PageProps {
-  params: Promise<{ noteId: string }>;
+  params: {
+    noteId: string;
+  };
 }
 
-export default async function NotePage({ params }: PageProps) {
-  const { noteId } = await params;
+export default async function NotePage({ params: { noteId } }: PageProps) {
   const { userId } = await auth();
-  
   if (!userId) {
     redirect("/login");
   }
 
-  const result = await getNoteByIdAction(noteId);
-  
-  if (result.status === 'error' || !result.data) {
+  const { data: note } = await getNoteByIdAction(noteId);
+  if (!note) {
     return (
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="flex h-screen items-center justify-center p-8">
         <div className="max-w-md text-center">
           <h2 className="text-2xl font-semibold mb-2">未找到笔记</h2>
           <p className="text-muted-foreground">
@@ -31,8 +32,33 @@ export default async function NotePage({ params }: PageProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-full">
-      <NoteEditor note={result.data} />
-    </div>
+    <ResizablePanelGroup 
+      direction="horizontal" 
+      className="h-screen overflow-hidden"
+    >
+      <ResizablePanel 
+        defaultSize={65}
+        minSize={40}
+        maxSize={75}
+        className="overflow-hidden"
+      >
+        <div className="h-full overflow-hidden">
+          <NoteEditor note={note} />
+        </div>
+      </ResizablePanel>
+      
+      <ResizableHandle withHandle />
+      
+      <ResizablePanel 
+        defaultSize={35}
+        minSize={25}
+        maxSize={60}
+        className="overflow-hidden"
+      >
+        <div className="h-full overflow-hidden">
+          <ChatSidebar note={note} />
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 } 

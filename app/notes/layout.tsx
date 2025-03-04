@@ -28,18 +28,18 @@ export default async function NotesLayout({
   return (
     <div className="flex h-screen bg-background/95 dark:bg-background/95">
       <NotesSidebar userId={userId} />
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col min-h-0 w-full">
         <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex h-14 items-center px-6 gap-4">
+          <div className="flex h-14 items-center px-4 gap-4">
             <div className="flex-1">
-              <h1 className="text-xl font-semibold">我的笔记</h1>
+              <h1 className="text-xl font-semibold text-center">我的笔记</h1>
             </div>
-            
+           
           </div>
         </header>
-        <main className="flex-1 flex flex-col min-h-0">
-          <ScrollArea className="flex-1">
-            <div className="container max-w-3xl py-6 px-4">
+        <main className="flex-1 flex flex-col min-h-0 w-full">
+          <ScrollArea className="flex-1 w-full">
+            <div className="w-full h-full">
               {children}
             </div>
           </ScrollArea>

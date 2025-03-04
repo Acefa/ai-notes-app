@@ -4,7 +4,6 @@ import { SelectNote } from "@/db/schema/notes-schema";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { DeleteNoteDialog } from "../DeleteNoteDialog";
-import { Button } from "@/components/ui/button";
 import { FileTextIcon, Calendar, CircleDot } from "lucide-react";
 import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
@@ -15,18 +14,25 @@ export function NoteItem({ note }: { note: SelectNote }) {
   const isActive = pathname === `/notes/${note.id}`;
 
   return (
-    <Button
-      variant={isActive ? "secondary" : "ghost"}
+    <div
+      role="button"
+      tabIndex={0}
       className={cn(
-        "w-full group relative px-3 py-2 h-auto",
+        "w-full group relative px-3 py-2 h-auto cursor-pointer",
         "hover:bg-accent/50 transition-colors duration-200",
+        "rounded-md",
         isActive && [
           "bg-accent/60 before:absolute before:left-0 before:top-1/2",
           "before:-translate-y-1/2 before:w-1 before:h-4",
           "before:bg-primary before:rounded-full"
         ]
       )}
-      onClick={()  => router.push(`/notes/${note.id}`)}
+      onClick={() => router.push(`/notes/${note.id}`)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          router.push(`/notes/${note.id}`);
+        }
+      }}
     > 
       <div className="flex flex-col w-full gap-1 items-start">
         <div className="flex items-center gap-2 w-full">
@@ -55,6 +61,6 @@ export function NoteItem({ note }: { note: SelectNote }) {
           </span>
         </div>
       </div>
-    </Button>
+    </div>
   );
 } 
