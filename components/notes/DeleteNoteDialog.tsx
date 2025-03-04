@@ -23,6 +23,7 @@ export function DeleteNoteDialog({ noteId }: { noteId: string }) {
   const router = useRouter();
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
       const result = await deleteNoteAction(noteId);
       if (result.status === 'error') throw new Error(result.message || '删除失败');
@@ -31,6 +32,8 @@ export function DeleteNoteDialog({ noteId }: { noteId: string }) {
       router.push('/notes');
     } catch {
       toast.error('删除笔记失败');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
