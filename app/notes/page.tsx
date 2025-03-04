@@ -1,6 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getProfileByUserIdAction } from "@/actions/profiles-actions";
+import { NoteList } from "@/components/notes/NoteList";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function NotesPage() {
   const { userId } = await auth();
@@ -18,8 +21,8 @@ export default async function NotesPage() {
   }
 
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-3xl font-bold text-center mb-8">Notes</h1>
+    <div className="container mx-auto py-8">
+      <NoteList userId={userId} />
     </div>
   )
 }
