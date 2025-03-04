@@ -73,7 +73,7 @@ export async function createChatAction({
             max_tokens: 1000 // 减少 token 数量
           })
         },
-        8000 // 设置为 8 秒以确保在 Vercel 10 秒限制内完成
+        50000 // 设置为 8 秒以确保在 Vercel 10 秒限制内完成
       );
 
       if (!response.ok) {
