@@ -6,12 +6,15 @@ import { ChatSidebar } from "@/components/chat/ChatSidebar";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     noteId: string;
-  };
+  }>;
 }
 
-export default async function NotePage({ params: { noteId } }: PageProps) {
+export default async function NotePage({ 
+  params 
+}: PageProps) {
+  const { noteId } = await params;
   const { userId } = await auth();
   if (!userId) {
     redirect("/login");
